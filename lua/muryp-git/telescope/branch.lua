@@ -2,14 +2,19 @@ local picker = require 'muryp-git.utils.picker'
 
 ---@param callback function -- function for get remote
 return function(callback)
-  local getLogHash = vim.fn.system 'git log --pretty=format:"%h"'
-  local ListLogHash = vim.split(getLogHash, '\n')
+  local getRemoteName = vim.fn.system('git branch --list | grep -v $(git rev-parse --abbrev-ref HEAD)'):gsub(' ', '') ---@type string
+  local ListBranchName = vim.split(getRemoteName, '\n')
 
-  for _, value in pairs(ListLogHash) do
+  if #ListBranchName == 1 then
+    local NAME_CURRENT_BRANCH = vim.fn.system('echo $(git symbolic-ref --short HEAD)'):gsub('[\n\r]', '') ---@type string
+    return callback(NAME_CURRENT_BRANCH)
+  end
+
+  for _, value in pairs(ListBranchName) do
     local isNotEmty = value ~= ''
     local clearSpace = string.gsub(value, '%s+', '')
     if isNotEmty then
-      table.insert(ListLogHash, clearSpace)
+      table.insert(ListBranchName, clearSpace)
     end
   end
 
@@ -24,7 +29,7 @@ return function(callback)
   end
 
   picker {
-    opts = ListLogHash,
+    ListOption = ListBranchName,
     callBack = callBack,
     title = 'choose your branch',
   }

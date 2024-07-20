@@ -16,7 +16,7 @@ return function(hash, callback)
   end
 
   picker {
-    opts = ListFile,
+    ListOption = ListFile,
     callBack = callBack,
     title = 'choose your file',
   }

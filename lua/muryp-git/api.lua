@@ -2,6 +2,7 @@ local listBranch = require 'muryp-git.telescope.branch'
 local listRemote = require 'muryp-git.telescope.remote'
 local M = {}
 
+---@param Args {isUseSsh: boolean, isPull: boolean, isCommit: boolean, isAddAll: boolean}
 M.push = function(Args)
   local isUseSsh = Args.isUseSsh
   local isPull = Args.isPull
@@ -30,6 +31,7 @@ M.push = function(Args)
 end
 
 ---TODO: rebase,squash,merge
+---@param Args {isUseSsh: boolean}
 M.pull = function(Args)
   local isUseSsh = Args.isUseSsh
   -- local isRebase = Args.isRebase
@@ -80,6 +82,7 @@ M.open = function()
   end)
 end
 
+---@param Args {isMerge: boolean, isRebase: boolean}
 M.flow = function(Args)
   local isMerge = Args.isMerge
   local isRebase = Args.isRebase

@@ -2,8 +2,8 @@ local picker = require 'muryp-git.utils.picker'
 
 ---@param callback function -- function for get remote
 return function(callback)
-  local getRemoteName = vim.fn.system 'git remote'
-  local ListRemoteName = vim.split(getRemoteName, '\n')
+  local getLogHash = vim.fn.system 'git log --pretty=format:"%h"'
+  local ListLogHash = vim.split(getLogHash, '\n')
 
   local callBack = function(UserSelect)
     if type(UserSelect) == 'string' then
@@ -16,7 +16,7 @@ return function(callback)
   end
 
   picker {
-    opts = ListRemoteName,
+    ListOption = ListLogHash,
     callBack = callBack,
     title = 'choose your hash',
   }
