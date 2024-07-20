@@ -112,4 +112,11 @@ M.browse = function()
   end)
 end
 
+M.deleteRemote = function()
+  listRemote(function(REMOTE_NAME)
+    local CMD = 'term git remote remove ' .. REMOTE_NAME
+    vim.cmd(CMD)
+  end)
+end
+
 return M
