@@ -7,14 +7,6 @@
     "../which-key.nvim/lua/",
     "../which-key.nvim/plugin/",
     "../plenary.nvim/lua/",
-    "../plenary.nvim/plugin/",
-    "../octo.nvim/lua/",
-    "../octo.nvim/plugin/",
-    "../diffview.nvim/lua/",
-    "../diffview.nvim/plugin/",
-    "../git-conflict.nvim/lua/",
-    "../git-conflict.nvim/plugin/",
-    "../muryp-gh.nvim/lua/",
-    "../muryp-gh.nvim/plugin/"
+    "../plenary.nvim/plugin/"
   ]
 }
