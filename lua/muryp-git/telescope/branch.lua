@@ -5,19 +5,19 @@ return function(callback)
   local getRemoteName = vim.fn.system('git branch --list | grep -v $(git rev-parse --abbrev-ref HEAD)'):gsub(' ', '') ---@type string
   local ListBranchName = vim.split(getRemoteName, '\n')
 
+  local NAME_CURRENT_BRANCH = vim.fn.system('echo $(git symbolic-ref --short HEAD)'):gsub('[\n\r]', '') ---@type string
   if #ListBranchName == 1 then
-    local NAME_CURRENT_BRANCH = vim.fn.system('echo $(git symbolic-ref --short HEAD)'):gsub('[\n\r]', '') ---@type string
     return callback(NAME_CURRENT_BRANCH)
   end
+  local NewListBranchName = {}
 
   for _, value in pairs(ListBranchName) do
-    local isNotEmty = value ~= ''
-    local clearSpace = string.gsub(value, '%s+', '')
-    if isNotEmty then
-      table.insert(ListBranchName, clearSpace)
+    if value ~= '' then
+      table.insert(NewListBranchName, value)
+    else
+      table.insert(NewListBranchName, 1, NAME_CURRENT_BRANCH)
     end
   end
-
   local callBack = function(UserSelect)
     if type(UserSelect) == 'string' then
       callback(UserSelect)
@@ -29,7 +29,7 @@ return function(callback)
   end
 
   picker {
-    ListOption = ListBranchName,
+    ListOption = NewListBranchName,
     callBack = callBack,
     title = 'choose your branch',
   }
