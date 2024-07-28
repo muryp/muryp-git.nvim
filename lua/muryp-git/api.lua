@@ -27,7 +27,7 @@ M.push = function(Args)
       CMD = CMD .. 'git push ' .. REMOTE_NAME .. ' ' .. BRANCH
       vim.cmd(CMD)
     end)
-  end)
+  end, true)
 end
 
 ---TODO: rebase,squash,merge
