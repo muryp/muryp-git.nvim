@@ -186,4 +186,27 @@ M.remote = {
   end,
 }
 
+M.branch = {
+  renameList = function()
+    listBranch(function(BRANCH)
+      local NEW_NAME = vim.fn.input 'Enter new name: '
+      vim.cmd('term git branch -m ' .. BRANCH .. ' ' .. NEW_NAME)
+    end)
+  end,
+  renameCurr = function()
+    local CURR_BRANCH = vim.fn.system('git symbolic-ref --short HEAD'):gsub('[\n\r]', '')
+    local NEW_NAME = vim.fn.input('Enter new name: ', CURR_BRANCH)
+    vim.cmd('term git branch -m ' .. CURR_BRANCH .. ' ' .. NEW_NAME)
+  end,
+  rm = function()
+    listBranch(function(BRANCH)
+      vim.cmd('term git branch -d ' .. BRANCH)
+    end)
+  end,
+  create = function()
+    local BRANCH_NAME = vim.fn.input 'Enter branch name: '
+    vim.cmd('term git checkout -b ' .. BRANCH_NAME)
+  end,
+}
+
 return M
