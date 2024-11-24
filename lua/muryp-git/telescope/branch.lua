@@ -3,7 +3,7 @@ local picker = require 'muryp-git.utils.picker'
 ---@param callback function -- function for get remote
 ---@param isPush true|nil
 return function(callback, isPush)
-  local getRemoteName = vim.fn.system('git branch --list | grep -v $(git rev-parse --abbrev-ref HEAD)'):gsub(' ', '') ---@type string
+  local getRemoteName = vim.fn.system('git branch --list -a | grep -v $(git rev-parse --abbrev-ref HEAD)'):gsub(' ', '') ---@type string
   local ListBranchName = vim.split(getRemoteName, '\n')
 
   local NAME_CURRENT_BRANCH = vim.fn.system('echo $(git symbolic-ref --short HEAD)'):gsub('[\n\r]', '') ---@type string

@@ -31,12 +31,12 @@ M.push = function(Args)
 end
 
 ---TODO: rebase,squash,merge
----@param Args {isUseSsh: boolean}
+---@param Args {isUseSsh: boolean,isSquash:boolean,isMerge:boolean,isRebase:boolean}
 M.pull = function(Args)
   local isUseSsh = Args.isUseSsh
-  -- local isRebase = Args.isRebase
-  -- local isSquash = Args.isSquash
-  -- local isMerge = Args.isMerge
+  local isRebase = Args.isRebase
+  local isSquash = Args.isSquash
+  local isMerge = Args.isMerge
 
   listBranch(function(BRANCH)
     listRemote(function(REMOTE_NAME)
@@ -44,7 +44,16 @@ M.pull = function(Args)
       if isUseSsh then
         CMD = CMD .. 'eval "$(ssh-agent -s)" && ssh-add ' .. _G.SSH_DIR .. ' && '
       end
-      CMD = CMD .. 'git pull ' .. REMOTE_NAME .. ' ' .. BRANCH
+      CMD = CMD .. 'git pull ' .. REMOTE_NAME .. ' ' .. BRANCH .. ' && '
+      if isMerge then
+        CMD = CMD .. 'git merge ' .. REMOTE_NAME .. '/' .. BRANCH
+      end
+      if isRebase then
+        CMD = CMD .. 'git rebase ' .. REMOTE_NAME .. '/' .. BRANCH
+      end
+      if isSquash then
+        CMD = CMD .. 'git merge --squash ' .. REMOTE_NAME .. '/' .. BRANCH
+      end
       -- CMD = CMD .. 'git merge ' .. REMOTE_NAME .. ' ' .. BRANCH
       vim.cmd(CMD)
     end)
@@ -62,23 +71,23 @@ end
 
 M.revert1 = function(isHard)
   if isHard then
-    vim.cmd 'git reset --hard HEAD^'
+    vim.cmd '!git reset --hard HEAD^'
   else
-    vim.cmd 'git reset --soft HEAD^'
+    vim.cmd '!git reset --soft HEAD^'
   end
 end
 M.revert2 = function(isHard)
   if isHard then
-    vim.cmd 'git reset --hard HEAD^^'
+    vim.cmd '!git reset --hard HEAD^^'
   else
-    vim.cmd 'git reset --soft HEAD^^'
+    vim.cmd '!git reset --soft HEAD^^'
   end
 end
 M.open = function()
   listRemote(function(REMOTE_NAME)
     local VAL_REMOTE = vim.fn.system('git config --get remote.' .. REMOTE_NAME .. '.url')
     local sshToHttps = string.gsub(VAL_REMOTE, 'git@', 'https://'):gsub(':', '')
-    vim.fn.system('xdg-open ' .. sshToHttps)
+    vim.fn.system('!xdg-open ' .. sshToHttps)
   end)
 end
 
@@ -119,6 +128,22 @@ M.deleteRemote = function()
   listRemote(function(REMOTE_NAME)
     local CMD = 'term git remote remove ' .. REMOTE_NAME
     vim.cmd(CMD)
+  end)
+end
+
+M.merge = function()
+  listBranch(function(BRANCH)
+    vim.cmd('term git merge ' .. BRANCH)
+  end)
+end
+M.rebase = function()
+  listBranch(function(BRANCH)
+    vim.cmd('term git rebase ' .. BRANCH)
+  end)
+end
+M.squash = function()
+  listBranch(function(BRANCH)
+    vim.cmd('term git merge --squash ' .. BRANCH)
   end)
 end
 
