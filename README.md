@@ -1,5 +1,5 @@
 [![License: Apache](https://img.shields.io/badge/License-Apache-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-![Neovim version](https://img.shields.io/badge/Neovim-0.8.x-green.svg)
+![Neovim version](https://img.shields.io/badge/Neovim-0.10.x-green.svg)
 ![Lua version](https://img.shields.io/badge/Lua-5.4-yellow.svg)
 [![Repo Size](https://img.shields.io/github/repo-size/muryp/muryp-git-setup.nvim)](https://github.com/muryp/muryp-git-setup.nvim)
 [![Latest Release](https://img.shields.io/github/release/muryp/muryp-git-setup.nvim)](https://github.com/muryp/muryp-git-setup.nvim/releases/latest)
@@ -7,13 +7,10 @@
 [![Open Issues](https://img.shields.io/github/issues/muryp/muryp-git-setup.nvim)](https://github.com/muryp/muryp-git-setup.nvim/issues)
 
 # Plugin Nvim MuryP Git
-easy use git, with telescope and wichkey.
+This plugins for manage git in neovim. Like commit, push, PR ,etc.
+
 ## requirement
 - nvim 0.8+ (recommendation)
-- [lewis6991/gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
-- [sindrets/diffview.nvim](https://github.com/sindrets/diffview.nvim)
-- [akinsho/git-conflict.nvim](https://github.com/akinsho/git-conflict.nvim)
-- [folke/which-key.nvim](https://github.com/folke/which-key.nvim)
 - [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)
 
 > if some plugins not found you can still used it, but you can use it
@@ -21,40 +18,52 @@ easy use git, with telescope and wichkey.
 ## install
 - lazy.nvim
 ```lua
-{
-  'muryp/muryp-git-setup.nvim',
-}
+  {
+    'muryp/muryp-git.nvim',
+    config = function()
+      --PATH SSH DIR
+      _G.SSH_DIR = vim.fn.getenv 'HOME' .. '/.ssh/github'
+      --PATH GIT DIR for cache
+      _G.MURYP_GIT_DIR = vim.fn.getenv 'HOME' .. '/.muryp/nvim/git/'
+      require 'muryp-git'
+    end,
+  }
 ```
 
 ## configs
-```lua
--- disable maps
-require('muryp-git-setup').useMaps = false
--- rewrite maps
-require('muryp-git-setup').MAPS[1].t = {':cmdt<CR>','DESCRIPTIONt'}
-require('muryp-git-setup').MAPS[1].g = { name = 'some description', h = { ':cmdg<CR>','DESCRIPTIONg'},}
-require('muryp-git-setup').MAPS[2] = { prefix = "<leader>", noremap = true, mode = 'n', silent = true }
-```
+
+> see example configs in [here](https://github.com/alifprihantoro/conf.nvim/blob/main/lua/maps/git.lua)
 
 ## Api
-- git cmd main
-```lua
-M.gitMainCmd({
-  add = true,          -- use git add . ? => boolean|nil
-  commit = true,       -- use commit? => boolean|nil
-  ssh = true,          -- use ssh? => boolean|nil
-  pull = true,         -- use pull? => boolean|nil
-  pull_quest = true,   -- ask use pull => boolean|nil
-  push = true,         -- push => boolean|nil
-  remote_quest = true, -- custom remote => boolean|nil
-  remote = true,       -- default remote => string
-})
-```
-
-## Telescope Register
-- `Telescope git_flow` : checkout and merge
-- `Telescope git_pull` : pull request from remote
-- `Telescope git_commit_ssh_push` : commit ssh push with option remote
+> before use api you need to `local git = require('muryp-git.api')`
+### BRANCH
+- `git.branch.create` => CREATE
+- `git.branch.renameCurr` => RENAME_CURR
+- `git.branch.renameList` => RENAME_LIST
+- `git.branch.rm` => REMOVE
+### FLOW
+- `git.flow { isRebase = true }` => CHECKOUT AND REBASE
+- `git.flow { isMerge = true }` => CHECKOUT AND MERGE
+- `git.flow { isSquash = true }` => CHECKOUT AND SQUASH
+### COMMIT AND PUSH
+- `git.commit { isAmend = true }` => COMMIT
+- `git.push { isUseSsh = true, isPull = true, isCommit = true, isAddAll = true, }` => ADD,COMMIT,PUSH,PULL
+### PULL
+> isUseSsh => use ssh to pull, change to false if you not use it.
+- `git.pull { isUseSsh = true, isSquash = true, }` => PULL AND SQUASH
+- `git.pull { isUseSsh = true, isRebase = true, }` => PULL AND REBASE
+- `git.pull { isUseSsh = true, isMerge = true, }` => PULL AND MERGE
+### MERGE
+- `git.merge` => MERGE
+- `git.squash` => SQUASH
+- `git.rebase` => REBASE
+### REMOTE
+- `git.remote.add` => CREATE
+- `git.remote.rename` => RENAME
+- `git.remote.rm` => REMOVE
+- `git.remote.sshToHttp` => SSH_TO_HTTP
+- `git.remote.httpToSsh` => HTTP_TO_SSH
+- `git.remote.open` => OPEN IN BROWSER
 
 ## Lisensi
 The `muryp-git-setup` plugin is distributed under the **Apache License 2.0**. Please refer to the `LICENSE` file for more information about this license.
