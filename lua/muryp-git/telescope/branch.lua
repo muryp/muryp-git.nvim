@@ -1,8 +1,8 @@
 local picker = require 'muryp-git.utils.picker'
 
 ---@param callback function -- function for get remote
----@param isPush true|nil
-return function(callback, isPush)
+---@param isUseCurrBranch true|nil
+return function(callback, isUseCurrBranch)
   local getRemoteName = vim.fn.system('git branch --list -a | grep -v $(git rev-parse --abbrev-ref HEAD)'):gsub(' ', '') ---@type string
   local ListBranchName = vim.split(getRemoteName, '\n')
 
@@ -16,7 +16,7 @@ return function(callback, isPush)
     if value ~= '' then
       table.insert(NewListBranchName, value)
     else
-      if isPush then
+      if isUseCurrBranch then
         table.insert(NewListBranchName, 1, NAME_CURRENT_BRANCH)
       end
     end
