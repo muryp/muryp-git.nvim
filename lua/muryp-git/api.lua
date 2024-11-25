@@ -84,10 +84,11 @@ M.revert2 = function(isHard)
   end
 end
 
----@param Args {isMerge: boolean, isRebase: boolean}
+---@param Args {isMerge: boolean, isRebase: boolean, isSquash: boolean}
 M.flow = function(Args)
   local isMerge = Args.isMerge
   local isRebase = Args.isRebase
+  local isSquash = Args.isSquash
 
   local CURR_BRANCH = vim.fn.system('git symbolic-ref --short HEAD'):gsub('[\n\r]', '')
   listBranch(function(TARGET_BRANCH)
@@ -97,6 +98,9 @@ M.flow = function(Args)
     end
     if isRebase then
       CMD = CMD .. 'git rebase ' .. CURR_BRANCH
+    end
+    if isSquash then
+      CMD = CMD .. 'git merge --squash ' .. CURR_BRANCH
     end
     vim.cmd(CMD)
   end)
