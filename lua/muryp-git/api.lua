@@ -138,13 +138,6 @@ end
 
 local REMOTE_LIST_CMD = ' && git remote -v'
 M.remote = {
-  changeUrl = function()
-    listRemote(function(REMOTE_NAME)
-      local OLD_URL = vim.fn.system('git config --get remote.' .. REMOTE_NAME .. '.url')
-      local NEW_URL = vim.fn.input('Enter new url: ', OLD_URL)
-      vim.cmd('term git remote set-url ' .. REMOTE_NAME .. ' ' .. NEW_URL .. REMOTE_LIST_CMD)
-    end)
-  end,
   add = function()
     local REMOTE_NAME = vim.fn.input 'Enter remote name: '
     local REMOTE_URL = vim.fn.input 'Enter remote url: '

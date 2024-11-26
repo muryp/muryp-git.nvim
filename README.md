@@ -5,6 +5,7 @@
 [![Latest Release](https://img.shields.io/github/release/muryp/muryp-git-setup.nvim)](https://github.com/muryp/muryp-git-setup.nvim/releases/latest)
 [![Last Commit](https://img.shields.io/github/last-commit/muryp/muryp-git-setup.nvim)](https://github.com/muryp/muryp-git-setup.nvim/commits/master)
 [![Open Issues](https://img.shields.io/github/issues/muryp/muryp-git-setup.nvim)](https://github.com/muryp/muryp-git-setup.nvim/issues)
+[![Linting and style checking](https://github.com/muryp/muryp-git.nvim/actions/workflows/lint.yml/badge.svg)](https://github.com/muryp/muryp-git.nvim/actions/workflows/lint.yml)
 
 # Plugin Nvim MuryP Git
 This plugins for manage git in neovim. Like commit, push, PR ,etc.
