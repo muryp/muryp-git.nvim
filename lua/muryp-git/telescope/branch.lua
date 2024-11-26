@@ -20,8 +20,9 @@ return function(callback, isUseCurrBranch)
 
   for _, value in pairs(ListBranchName) do
     if value ~= '' and value ~= 'head' then
-      if value == NAME_CURRENT_BRANCH and not isUseCurrBranch then
-      else
+      local checkUseCurrBranch = (value == NAME_CURRENT_BRANCH and not isUseCurrBranch)
+
+      if not checkUseCurrBranch then
         table.insert(NewListBranchName, value)
       end
     end
