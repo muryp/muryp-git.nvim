@@ -57,7 +57,7 @@ M.pull = function(Args)
       -- CMD = CMD .. 'git merge ' .. REMOTE_NAME .. ' ' .. BRANCH
       vim.cmd(CMD)
     end)
-  end)
+  end, true)
 end
 
 M.commit = function(isAddAll)
@@ -188,7 +188,7 @@ M.branch = {
     listBranch(function(BRANCH)
       local NEW_NAME = vim.fn.input 'Enter new name: '
       vim.cmd('term git branch -m ' .. BRANCH .. ' ' .. NEW_NAME)
-    end)
+    end, true)
   end,
   renameCurr = function()
     local CURR_BRANCH = vim.fn.system('git symbolic-ref --short HEAD'):gsub('[\n\r]', '')
