@@ -57,7 +57,7 @@ M.pull = function(Args)
       -- CMD = CMD .. 'git merge ' .. REMOTE_NAME .. ' ' .. BRANCH
       vim.cmd(CMD)
     end)
-  end, true)
+  end)
 end
 
 M.commit = function(isAddAll)
