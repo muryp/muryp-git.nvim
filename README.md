@@ -32,7 +32,7 @@ This plugins for manage git in neovim. Like commit, push, PR ,etc.
 
 ## configs
 
-> see example configs in [here](https://github.com/alifprihantoro/conf.nvim/blob/main/lua/maps/git.lua)
+> see example configs in [here](https://github.com/aliefprihantoro/conf.nvim/blob/main/lua/maps/git.lua)
 
 ## Api
 > before use api you need to `local git = require('muryp-git.api')`
