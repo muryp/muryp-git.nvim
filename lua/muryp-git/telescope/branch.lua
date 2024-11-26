@@ -17,14 +17,14 @@ return function(callback, isUseCurrBranch)
     return callback(NAME_CURRENT_BRANCH)
   end
   local NewListBranchName = {}
+  if isUseCurrBranch then
+    table.insert(NewListBranchName, NAME_CURRENT_BRANCH)
+  end
 
   for _, value in pairs(ListBranchName) do
-    if value ~= '' and value ~= 'head' then
-      local checkUseCurrBranch = (value == NAME_CURRENT_BRANCH and not isUseCurrBranch)
-
-      if not checkUseCurrBranch then
-        table.insert(NewListBranchName, value)
-      end
+    local isExclude = (value == NAME_CURRENT_BRANCH and value ~= '' and value ~= 'head')
+    if isExclude then
+      table.insert(NewListBranchName, value)
     end
   end
   local callBack = function(UserSelect)
