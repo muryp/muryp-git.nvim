@@ -136,22 +136,21 @@ M.squash = function()
   end)
 end
 
-local REMOTE_LIST_CMD = ' && git remote -v'
 M.remote = {
   add = function()
     local REMOTE_NAME = vim.fn.input 'Enter remote name: '
     local REMOTE_URL = vim.fn.input 'Enter remote url: '
-    vim.cmd('term git remote add ' .. REMOTE_NAME .. ' ' .. REMOTE_URL .. REMOTE_LIST_CMD)
+    vim.cmd('term git remote add ' .. REMOTE_NAME .. ' ' .. REMOTE_URL )
   end,
   rename = function()
     listRemote(function(REMOTE_NAME)
       local NEW_NAME = vim.fn.input 'Enter new name: '
-      vim.cmd('term git remote rename ' .. REMOTE_NAME .. ' ' .. NEW_NAME .. REMOTE_LIST_CMD)
+      vim.cmd('term git remote rename ' .. REMOTE_NAME .. ' ' .. NEW_NAME)
     end)
   end,
   rm = function()
     listRemote(function(REMOTE_NAME)
-      vim.cmd('term git remote remove ' .. REMOTE_NAME .. REMOTE_LIST_CMD)
+      vim.cmd('term git remote remove ' .. REMOTE_NAME )
     end)
   end,
   show = function()
@@ -164,14 +163,14 @@ M.remote = {
     listRemote(function(REMOTE_NAME)
       local OLD_URL = vim.fn.system('git config --get remote.' .. REMOTE_NAME .. '.url')
       local NEW_URL = string.gsub(OLD_URL, 'https://', 'git@'):gsub('github.com/', 'github.com:')
-      vim.cmd('term git remote set-url ' .. REMOTE_NAME .. ' ' .. NEW_URL .. REMOTE_LIST_CMD)
+      vim.cmd('term git remote set-url ' .. REMOTE_NAME .. ' ' .. NEW_URL )
     end)
   end,
   sshToHttp = function()
     listRemote(function(REMOTE_NAME)
       local OLD_URL = vim.fn.system('git config --get remote.' .. REMOTE_NAME .. '.url')
       local NEW_URL = string.gsub(OLD_URL, 'git@', 'https://'):gsub('github.com:', 'github.com/')
-      vim.cmd('term git remote set-url ' .. REMOTE_NAME .. ' ' .. NEW_URL .. REMOTE_LIST_CMD)
+      vim.cmd('term git remote set-url ' .. REMOTE_NAME .. ' ' .. NEW_URL )
     end)
   end,
   open = function()
