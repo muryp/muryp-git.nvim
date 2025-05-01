@@ -1,3 +1,4 @@
+-- TODO: add list repo url after change/add
 local listBranch = require 'muryp-git.telescope.branch'
 local listRemote = require 'muryp-git.telescope.remote'
 local M = {}
@@ -140,7 +141,7 @@ M.remote = {
   add = function()
     local REMOTE_NAME = vim.fn.input 'Enter remote name: '
     local REMOTE_URL = vim.fn.input 'Enter remote url: '
-    vim.cmd('term git remote add ' .. REMOTE_NAME .. ' ' .. REMOTE_URL )
+    vim.cmd('term git remote add ' .. REMOTE_NAME .. ' ' .. REMOTE_URL)
   end,
   rename = function()
     listRemote(function(REMOTE_NAME)
@@ -150,7 +151,7 @@ M.remote = {
   end,
   rm = function()
     listRemote(function(REMOTE_NAME)
-      vim.cmd('term git remote remove ' .. REMOTE_NAME )
+      vim.cmd('term git remote remove ' .. REMOTE_NAME)
     end)
   end,
   show = function()
@@ -163,14 +164,14 @@ M.remote = {
     listRemote(function(REMOTE_NAME)
       local OLD_URL = vim.fn.system('git config --get remote.' .. REMOTE_NAME .. '.url')
       local NEW_URL = string.gsub(OLD_URL, 'https://', 'git@'):gsub('github.com/', 'github.com:')
-      vim.cmd('term git remote set-url ' .. REMOTE_NAME .. ' ' .. NEW_URL )
+      vim.cmd('term git remote set-url ' .. REMOTE_NAME .. ' ' .. NEW_URL)
     end)
   end,
   sshToHttp = function()
     listRemote(function(REMOTE_NAME)
       local OLD_URL = vim.fn.system('git config --get remote.' .. REMOTE_NAME .. '.url')
       local NEW_URL = string.gsub(OLD_URL, 'git@', 'https://'):gsub('github.com:', 'github.com/')
-      vim.cmd('term git remote set-url ' .. REMOTE_NAME .. ' ' .. NEW_URL )
+      vim.cmd('term git remote set-url ' .. REMOTE_NAME .. ' ' .. NEW_URL)
     end)
   end,
   open = function()
@@ -178,6 +179,14 @@ M.remote = {
       local VAL_REMOTE = vim.fn.system('git config --get remote.' .. REMOTE_NAME .. '.url')
       local sshToHttps = string.gsub(VAL_REMOTE, 'git@', 'https://'):gsub('github.com:', 'github.com/')
       vim.fn.system('xdg-open ' .. sshToHttps)
+    end)
+  end,
+  copy = function()
+    listRemote(function(REMOTE_NAME)
+      local VAL_REMOTE = vim.fn.system('git config --get remote.' .. REMOTE_NAME .. '.url')
+      local sshToHttps = string.gsub(VAL_REMOTE, 'git@', 'https://'):gsub('github.com:', 'github.com/')
+      vim.fn.setreg('+', sshToHttps)
+      print('copy: ' .. sshToHttps)
     end)
   end,
 }

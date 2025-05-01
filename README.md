@@ -65,6 +65,7 @@ This plugins for manage git in neovim. Like commit, push, PR ,etc.
 - `git.remote.sshToHttp` => SSH_TO_HTTP
 - `git.remote.httpToSsh` => HTTP_TO_SSH
 - `git.remote.open` => OPEN IN BROWSER
+- `git.remote.copy` => COPY REMOTE INTO CLIPBOARD
 
 ## Lisensi
 The `muryp-git-setup` plugin is distributed under the **Apache License 2.0**. Please refer to the `LICENSE` file for more information about this license.
